@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.SellerMapper">
+    <insert id="add">
+        insert into menus(seller,name,price) values(#{account},#{name},#{price})
+    </insert>
+
+
+    <!--—————————————————退钱————————————————————-->
+    <select id="queryPrice" resultType="java.lang.Integer">
+        select price from menus where seller=#{account} and name=#{name}
+    </select>
+
+    <select id="orderCount" resultType="java.lang.Integer">
+        select count(*) from orders where seller=#{account} and name=#{name} group by seller,name
+    </select>
+    <update id="subSum">
+        update users set balance=balance-#{price}*#{orderCount} where account=#{account}
+    </update>
+
+    <select id="queryUC" resultType="com.example.pojo.Middle">
+        select customer,count(*) as num from orders where seller=#{account} and name=#{name} group by customer,seller,name
+    </select>
+
+    <update id="refund">
+        update users set balance=balance+#{price}*#{num} where account=#{account}
+    </update>
+    <!--————————————————下架商品——————————————————-->
+    <delete id="delete">
+        delete from menus where seller=#{account} and name=#{name}
+    </delete>
+
+    <delete id="delFromOrders">
+        delete from orders where seller=#{account} and name=#{name}
+    </delete>
+
+
+    <select id="findByaccount" resultType="com.example.pojo.Menu">
+        select * from menus where seller=#{account}  and  name=#{name}
+    </select>
+    <select id="queryMenu" resultType="com.example.pojo.Menu">
+        select * from menus where seller=#{account}
+    </select>
+    <select id="queryOrder" resultType="com.example.pojo.Order">
+        select * from orders where seller=#{account}
+    </select>
+
+
+</mapper>

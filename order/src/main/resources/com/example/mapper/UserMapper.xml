@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.UserMapper">
+    <insert id="insert">
+        insert into users(account,password,username,category) values(#{account},
+        #{password},#{username},#{category})
+    </insert>
+    <update id="alterPwd">
+        update users set password=#{newPwd} where account=#{account}
+    </update>
+    <update id="alterOther">
+        update users
+        <set>
+        <if test="nun!=null and nun!=''">
+             username=#{nun},
+        </if>
+        <if test="npic!=null and npic!=''">
+             picture=#{npic}
+        </if>
+        </set>
+        where account=#{account}
+
+    </update>
+
+    <select id="findAll" resultType="com.example.pojo.User">
+        select * from users
+    </select>
+    <select id="queryByUsername" resultType="com.example.pojo.User">
+        select * from users where username=#{username}
+    </select>
+    <select id="queryByAccount" resultType="com.example.pojo.User">
+        select * from users where account=#{account}
+    </select>
+    <select id="querymessage" resultType="com.example.pojo.User">
+        select * from users where account=#{account}
+    </select>
+</mapper>

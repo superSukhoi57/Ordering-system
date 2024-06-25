@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.CustomerMapper">
+    <update id="addprice">
+        update users set balance=balance+#{price} where account=#{account}
+    </update>
+    <delete id="withdraw">
+        delete from orders where num=#{num}
+    </delete>
+    <delete id="confirm">
+        delete from orders where num=#{num}
+    </delete>
+    <insert id="addorder">
+        insert into orders(seller,name,customer) values(#{seller},#{name},#{account})
+    </insert>
+    <update id="subprice">
+        update users set balance=balance-#{price} where account=#{account}
+    </update>
+    <update id="sellersub">
+        update users set balance=balance-#{price} where account=#{seller}
+    </update>
+    <update id="customeradd">
+        update users set balance=balance+#{price} where account=#{customer}
+    </update>
+
+
+    <select id="queryAllMenu" resultType="com.example.pojo.Menu">
+        select * from menus ;
+    </select>
+    <select id="queryMyOrder" resultType="com.example.pojo.Order">
+        select * from orders where customer=#{account}
+    </select>
+    <select id="queryprice" resultType="java.lang.Integer">
+        select price from menus where seller=#{seller} and name=#{name}
+    </select>
+    <select id="queryOrderBynum" resultType="com.example.pojo.Order">
+        select * from orders where num=#{num}
+    </select>
+</mapper>
